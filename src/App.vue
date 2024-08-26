@@ -15,6 +15,9 @@
             </div>
           </transition>
         </router-view>
+        <div class="text-right">
+        This paragraph is aligned to the right to check Tailwind CSS.
+      </div>
         <footer class="app__footer">
           <a
             class="app__footer-link"
@@ -28,12 +31,13 @@
       <invalid-network-modal
         :is-shown="web3Store.isInvalidNetworkModalShown"
         @update:is-shown="web3Store.isInvalidNetworkModalShown = false"
-      />
+      />      
     </div>
   </transition>
 </template>
 
 <script lang="ts" setup>
+import './index.css'
 import { AppNavbar, Animation } from '@/common'
 import { useViewportSize, useNotifications, useContext } from '@/composables'
 import { ErrorHandler } from '@/helpers'

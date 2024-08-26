@@ -2,6 +2,7 @@ import packageJson from '../package.json'
 import { LogLevelDesc } from 'loglevel'
 import { pickBy, mapKeys } from 'lodash-es'
 import { FILE_TYPES } from '@/enums'
+import './index.css'
 
 export const config = {
   APP_NAME: import.meta.env.VITE_APP_NAME,
