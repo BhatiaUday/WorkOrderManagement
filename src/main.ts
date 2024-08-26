@@ -25,9 +25,8 @@ const app = createApp({
   render: () => h(App),
 })
 
-log.setDefaultLevel(config.LOG_LEVEL)
-
-app.use(router).use(store).use(i18n).use(VueToastificationPlugin, {
+app.use(router) // Ensure router is used
+app.use(store).use(i18n).use(VueToastificationPlugin, {
   transition: 'Vue-Toastification__fade',
   newestOnTop: false,
 })

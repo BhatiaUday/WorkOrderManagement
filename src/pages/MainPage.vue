@@ -5,8 +5,11 @@
         <h1>
           {{ $t('main-page.welcome-message') }}
         </h1>
+        <router-link to="/new">Go to New Page</router-link>
+
         <svg class="main-page__welcome-background-img">
           <use href="/branding/ribbon.svg#ribbon" />
+
         </svg>
       </div>
       <h4 class="main-page__description">
@@ -41,7 +44,8 @@
       </transition>
       <div class="main-page__card">
         <h2 class="main-page__card-title">
-          {{ $t('main-page.doc-creation-card-title') }}
+          <!-- {{ $t('main-page.doc-creation-card-title') }} -->
+          <p>{{ myVariable }}</p>
         </h2>
         <div class="main-page__card-illustration-wrp">
           <doc-creation-illustration
@@ -100,7 +104,7 @@ import { ref, computed } from 'vue'
 
 const web3Store = useWeb3ProvidersStore()
 const { $t } = useContext()
-
+const myVariable = web3Store.provider.selectedAddress
 const isDocCreationModalShown = ref(false)
 const isDocVerificationModalShown = ref(false)
 

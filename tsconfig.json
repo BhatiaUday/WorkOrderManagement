@@ -18,7 +18,7 @@
       "vite/client",
       "@types/lodash-es",
       "jsona",
-      "vitest/globals"
+      "vitest/globals",
     ],
     "paths": {
       "@/*": ["src/*"],
@@ -39,6 +39,7 @@
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "index.d.ts",
+    "src/types/shadcn-ui.d.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }
