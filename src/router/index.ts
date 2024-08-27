@@ -19,9 +19,19 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/pages/MainPage.vue'),
   },
   {
-    path: '/new-page',
+    path: '/login',
     name: ROUTE_NAMES.newPage,  // Add a name for the new route
-    component: () => import('@/pages/NewPage.vue'), // Import the new page component
+    component: () => import('@/pages/Login.vue'), // Import the new page component
+  },
+  {
+    path: '/register',
+    name: ROUTE_NAMES.register,  // Add a name for the new route
+    component: () => import('@/pages/Register.vue'), // Import the new page component
+  },
+  {
+    path: '/profile',
+    name: ROUTE_NAMES.profile,  // Add a name for the new route
+    component: () => import('@/pages/Profile.vue'), // Import the new page component
   },
 ]
 

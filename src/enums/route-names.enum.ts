@@ -1,4 +1,7 @@
 export enum ROUTE_NAMES {
   main = 'main',
-  newPage = 'NewPage'
+  newPage = 'NewPage',
+  login = 'Login',
+  register = 'Register',
+  profile = 'Profile',
 }
