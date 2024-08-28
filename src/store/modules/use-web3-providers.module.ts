@@ -10,13 +10,9 @@ export const useWeb3ProvidersStore = defineStore('web3-providers-store', {
     provider: useProvider(),
     admittedChainIds: config.IS_MAINNET
       ? ([
-          ETHEREUM_CHAINS.ethereum,
-          ETHEREUM_CHAINS.polygon,
           ETHEREUM_CHAINS.qMainnet,
         ] as ChainId[])
       : ([
-          ETHEREUM_CHAINS.goerli,
-          ETHEREUM_CHAINS.mumbai,
           ETHEREUM_CHAINS.qTestnet,
         ] as ChainId[]),
     isInvalidNetworkModalShown: false,
