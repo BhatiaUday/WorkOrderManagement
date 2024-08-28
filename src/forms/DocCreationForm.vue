@@ -139,10 +139,17 @@ import {
 } from '@/types'
 import { useWeb3ProvidersStore } from '@/store'
 import { ref, reactive, computed, onMounted, watch, nextTick } from 'vue'
+import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
+
+import { db, storage } from "@/firebase"; // Adjust the path to your firebase.js
 
 const emit = defineEmits<{
   (event: 'cancel'): void
 }>()
+const signerAddress = ref('');
 
 const { $t } = useContext()
 const web3Store = useWeb3ProvidersStore()
@@ -189,6 +196,10 @@ const { isFieldsValid } = useFormValidation(form, {
     // TODO: simple string[] array validation
   },
 })
+const getSignerAddress = async () => {
+  const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+  signerAddress.value = accounts[0];
+};
 
 const addIndicatedAddress = (address: string) => {
   if (isAddress(address) && !form.indicatedAddresses.includes(address)) {
@@ -236,41 +247,71 @@ const isSubmitButtonDisabled = computed<boolean>(
     !web3Store.isValidChain,
 )
 const submit = async () => {
-  disableForm()
-  isSubmitting.value = true
+  disableForm();
+  isSubmitting.value = true;
+
   try {
+    // Check if files are selected
+    if (!form.files || form.files.length === 0) {
+      throw new Error('No file selected');
+    }
+
+    // Check if MetaMask is connected and get the signer address
+    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+    if (accounts.length === 0) {
+      throw new Error('MetaMask is not connected');
+    }
+    const signerAddress = accounts[0];
+
+    console.log("Uploading document to Firebase Storage...");
+
+    // Step 1: Upload the document to Firebase Storage
+    const storage = getStorage();
+    const storageRefInstance = storageRef(storage, `documents/${form.files[0].name}`);
+    const uploadTask = await uploadBytes(storageRefInstance, form.files[0]);
+
+    console.log("Upload completed, fetching download URL...");
+
+    const fileUrl = await getDownloadURL(storageRefInstance);
+    console.log("File URL: ", fileUrl);
+
+    // Step 2: Store the document metadata in Firestore
+    const firestore = getFirestore();
+    await setDoc(doc(firestore, "documents", form.files[0].name), {
+      fileName: form.files[0].name,
+      fileUrl: fileUrl,
+      isSign: form.isSign,
+      indicatedAddresses: form.isIndicatingAddresses ? form.indicatedAddresses : [],
+      timestamp: new Date(),
+      signerAddress: signerAddress // Include signerAddress in Firestore document
+    });
+
+    console.log("Document metadata stored in Firestore");
+
+    // Step 3: Generate the hash and interact with the contract as before
     const secretFileHash = (await poseidonHashContractInstance.getPoseidonHash(
-      (await getKeccak256FileHash(form.files?.[0] as File)) as Keccak256Hash,
-    )) as PoseidonHash
+      (await getKeccak256FileHash(form.files)).toString() as Keccak256Hash,
+    )) as PoseidonHash;
 
-    const { ZKPPointsStruct, publicHash } =
-      await generateZKPPointsStructAndPublicHash(
-        secretFileHash,
-        web3Store.provider.selectedAddress as string,
-      )
+    const { pointsStruct, publicHash } =
+      await generateZKPPointsStructAndPublicHash(secretFileHash);
 
-    publicFileHash.value = publicHash
+    console.log("Contract interaction completed");
 
-    await timestampContractInstance.createStamp(
-      publicFileHash.value,
-      form.isSign,
-      form.isIndicatingAddresses ? form.indicatedAddresses.reverse() : [],
-      ZKPPointsStruct,
-      {
-        value: fee.value as BigNumber,
-      },
-    )
+    await timestampContractInstance.submit(pointsStruct, publicHash);
 
-    showConfirmation()
+    publicFileHash.value = publicHash;
+    showConfirmation();
   } catch (err) {
-    errorMessage.value = getErrorMessage(err)
-
-    if (err?.code !== errors.ACTION_REJECTED) showFailure()
-    ErrorHandler.processWithoutFeedback(err)
+    console.error("Error in document submission: ", err);
+    errorMessage.value = getErrorMessage(err);
+    showFailure();
+  } finally {
+    enableForm();
+    isSubmitting.value = false;
   }
-  isSubmitting.value = false
-  enableForm()
 }
+
 
 const reset = () => {
   errorMessage.value = ''

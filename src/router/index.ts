@@ -33,6 +33,11 @@ const routes: Array<RouteRecordRaw> = [
     name: ROUTE_NAMES.profile,  // Add a name for the new route
     component: () => import('@/pages/Profile.vue'), // Import the new page component
   },
+  {
+    path: '/new',
+    name: ROUTE_NAMES.newPage,  // Add a name for the new route
+    component: () => import('@/pages/NewPage.vue'), // Import the new page component
+  },
 ]
 
 // Create the router instance
