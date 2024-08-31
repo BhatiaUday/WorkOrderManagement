@@ -35,11 +35,8 @@
           <h4 class="main-page__connect-ethereum-message">
             {{ ethereumMessage }}
           </h4>
-          <connect-ethereum
-            v-if="!web3Store.provider.isConnected"
-            class="main-page__connect-ethereum-button"
-            preset="primary"
-          />
+          <button @click="redirectToPage">Login</button>
+
         </div>
       </transition>
       <div class="main-page__card">
@@ -101,12 +98,20 @@ import {
 import { DocCreationModal, DocVerificationModal } from '@/modals'
 import { useWeb3ProvidersStore } from '@/store'
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
 
 const web3Store = useWeb3ProvidersStore()
 const { $t } = useContext()
 const myVariable = web3Store.provider.selectedAddress
 const isDocCreationModalShown = ref(false)
 const isDocVerificationModalShown = ref(false)
+const router = useRouter()
+
+const redirectToPage = () => {
+
+  router.push('/register') // Use the route path
+}
 
 const ethereumMessage = computed(() => {
   switch (true) {

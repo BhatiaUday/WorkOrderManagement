@@ -2,7 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';  // For authentication
 import { getFirestore } from 'firebase/firestore';  // For Firestore database
-import { getStorage } from "firebase/storage";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 
 const firebaseConfig = {

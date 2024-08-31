@@ -9,10 +9,7 @@ import { ROUTE_NAMES } from '@/enums'
 
 // Define your routes including the new page
 const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/:catchAll(.*)',
-    redirect: { name: ROUTE_NAMES.main },
-  },
+ 
   {
     path: '/',
     name: ROUTE_NAMES.main,
@@ -20,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/login',
-    name: ROUTE_NAMES.newPage,  // Add a name for the new route
+    name: ROUTE_NAMES.login,  // Add a name for the new route
     component: () => import('@/pages/Login.vue'), // Import the new page component
   },
   {
