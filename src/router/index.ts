@@ -15,10 +15,11 @@ const routes: Array<RouteRecordRaw> = [
     name: ROUTE_NAMES.main,
     component: () => import('@/pages/MainPage.vue'),
   },
+  
   {
-    path: '/login',
-    name: ROUTE_NAMES.login,  // Add a name for the new route
-    component: () => import('@/pages/Login.vue'), // Import the new page component
+    path: '/uploads',
+    name: ROUTE_NAMES.uploads,  // Add a name for the new route
+    component: () => import('@/pages/UploadedFiles.vue'), // Import the new page component
   },
   {
     path: '/register',

@@ -257,17 +257,7 @@ const submit = async () => {
     await uploadBytes(fileRef, file);
     const fileUrl = await getDownloadURL(fileRef);
     const walletAddress = web3Store.provider.selectedAddress as string;
-    const fileMetadata = {
-      fileName: file.name,
-      fileHash: await getKeccak256FileHash(file),
-      fileSize: file.size,
-      fileType: file.type,
-      uploadDate: new Date().toISOString(),
-      uploaderAddress: walletAddress,
-      isVerified: false,
-      fileUrl: fileUrl,
-    };
-    await setDoc(doc(db, 'files', walletAddress), fileMetadata);
+    
     const secretFileHash = (await poseidonHashContractInstance.getPoseidonHash(
       (await getKeccak256FileHash(form.files?.[0] as File)) as Keccak256Hash,
     )) as PoseidonHash
@@ -286,6 +276,19 @@ const submit = async () => {
         value: fee.value as BigNumber,
       },
     )
+    const fileMetadata = {
+      fileName: file.name,
+      fileHash: publicHash,
+      fileSize: file.size,
+      fileType: file.type,
+      uploadDate: new Date().toISOString(),
+      uploaderAddress: walletAddress,
+      indicatedAddresses: [...form.indicatedAddresses], 
+      isVerified: false,
+      fileUrl: fileUrl,
+    };
+    await setDoc(doc(db, 'files', publicHash), fileMetadata);
+
     
     showConfirmation()
   } catch (err) {
