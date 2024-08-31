@@ -1,19 +1,57 @@
 <template>
-  <header class="app-navbar">
-    <div class="app-navbar__container">
-      <svg class="app-navbar__logo">
-        <use href="/branding/logo.svg#logo" />
-      </svg>
-      <transition name="fade">
-        <switch-ethereum
-          v-if="web3Store.provider.isConnected"
-          class="app-navbar__switch-ethereum"
-        />
-      </transition>
-      <connect-ethereum
-        class="app-navbar__connect-ethereum"
-        preset="outline-brittle"
-      />
+  <header class="bg-gray-800 shadow-md">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <!-- Logo -->
+      <div class="flex items-center space-x-2">
+        <svg class="h-12 w-12 text-white fill-current">
+          <use href="/branding/logo.svg#logo" />
+        </svg>
+        <span class="text-white text-lg font-semibold">Run Time Terror</span>
+      </div>
+
+      <!-- Links / Buttons based on wallet connection -->
+      <div class="flex items-center space-x-6">
+        <!-- Show 'Your Uploads' if walletAddress is detected -->
+        <router-link
+      v-if="userType === 'Institute'"
+      to="/new"
+      class="text-white hover:text-blue-600 transition duration-300"
+    >
+    Student Uploads
+    </router-link>
+
+        <div v-if="walletAddress" class="flex space-x-4">
+          <router-link
+            to="/uploads"
+            class="text-white hover:text-blue-600 transition duration-300 mt-2"
+          >
+            Uploads
+          </router-link>
+
+          <!-- Replace 'Register' button with the wallet address -->
+          <span class="text-white bg-gray-700 px-4 py-2 rounded-lg">
+            {{ walletAddress }}
+          </span>
+        </div>
+
+        <!-- If walletAddress is not detected, show 'Connect to MetaMask' and 'Register' button -->
+        <div v-else class="flex space-x-4">
+          <button
+            @click="connectToMetaMask"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded transition duration-300"
+          >
+            Connect to MetaMask
+          </button>
+          
+          <router-link
+            to="/register"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded transition duration-300"
+          >
+            Register
+          </router-link>
+        </div>
+
+      </div>
     </div>
   </header>
 </template>
@@ -21,111 +59,47 @@
 <script lang="ts" setup>
 import { ConnectEthereum, SwitchEthereum } from '@/common'
 import { useWeb3ProvidersStore } from '@/store'
+import { ref, onMounted } from 'vue';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/firebase';  // Make sure the path is correct
 
 const web3Store = useWeb3ProvidersStore()
+
+const walletAddress = web3Store.provider.selectedAddress 
+const userType = ref(null);
+
+const fetchUserType = async () => {
+  const userDocRef = doc(db, 'users', walletAddress);  // 'users' is the collection
+  const docSnapshot = await getDoc(userDocRef);
+
+  if (docSnapshot.exists()) {
+    userType.value = docSnapshot.data().userType;  // Assuming 'userType' is a field in the document
+  } else {
+    console.log('No such document!');
+  }
+};
+
+onMounted(() => {
+  if (walletAddress) {
+    fetchUserType(walletAddress);
+  }
+});
+
+
+// Placeholder wallet address detection
+
+// Function to connect to MetaMask
+const connectToMetaMask = async () => {
+  try {
+    // Logic for connecting to MetaMask
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+    console.log('Connected: ', accounts[0])
+  } catch (error) {
+    console.error('MetaMask connection failed:', error)
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-.app-navbar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--col-intense);
-  box-shadow: 0 toRem(4) toRem(24) var(--col-rare);
-}
-
-.app-navbar__container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: toRem(16);
-  padding: 0 6.7%;
-  width: 100%;
-  max-width: toRem(1440);
-
-  @include respond-to(tablet) {
-    gap: toRem(8);
-    padding: 0 4.5%;
-  }
-}
-
-.app-navbar__logo {
-  height: toRem(48);
-  width: toRem(48);
-  color: var(--col-peaceful);
-  fill: var(--col-primary);
-  transition-property: color, fill;
-  transition-duration: var(--transition-duration);
-
-  &:hover {
-    color: var(--col-quiet);
-    fill: var(--col-basic);
-  }
-
-  &:active {
-    fill: var(--col-initial);
-  }
-
-  @include respond-to(tablet) {
-    height: toRem(44);
-    width: toRem(44);
-  }
-}
-
-.app-navbar__connect-ethereum {
-  height: toRem(48);
-  width: toRem(218);
-  font-size: toRem(14);
-  line-height: toRem(20);
-
-  @include respond-to(tablet) {
-    width: toRem(208);
-  }
-}
-
-.app-navbar__switch-ethereum {
-  z-index: var(--z-layer-1000);
-  height: toRem(48);
-  width: toRem(179);
-  margin-left: auto;
-
-  // stylelint-disable-next-line
-  :deep([id*='dropdown']) {
-    margin-top: toRem(24);
-    width: toRem(179);
-
-    @include respond-to(tablet) {
-      margin-top: toRem(16);
-    }
-
-    @include respond-to(small) {
-      position: absolute;
-      top: calc(var(--app-navbar-height-reduced) + toRem(8));
-      right: toRem(16);
-      margin-top: 0;
-    }
-  }
-
-  @include respond-to(small) {
-    width: toRem(64);
-  }
-}
-
-.fade-enter-active {
-  animation: fade-in var(--transition-duration-slow);
-}
-
-.fade-leave-active {
-  animation: fade-in var(--transition-duration-slow) reverse;
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
+/* Add necessary styles */
 </style>

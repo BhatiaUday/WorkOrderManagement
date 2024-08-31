@@ -12,9 +12,6 @@
   Your Uploads
 </router-link>
 
-        <svg class="main-page__welcome-background-img w-32 h-32">
-          <use href="/branding/ribbon.svg#ribbon" />
-        </svg>
       </div>
       <h4 class="main-page__description text-lg text-gray-700">
         Streamline work order management with our decentralized app for government colleges. Utilizing the Sign Protocol for secure, on-chain verification our dApp ensures transparent, tamper-proof processes and scalable solutions, transforming how work orders and approvals are managed.
@@ -48,14 +45,14 @@
       </transition>
 
       <div class="main-page__card bg-white p-4 rounded-lg shadow-md border border-gray-200 mb-6">
-        <h2 class="main-page__card-title text-2xl font-semibold mb-4">
-          <p>{{ myVariable }}</p>
+        <h2 class="main-page__card-title text-2xl font-semibold mb-4 mt-3">
+          <p>Upload Document</p>
         </h2>
         <div class="main-page__card-illustration-wrp mb-4">
-          <doc-creation-illustration
+          <!--<doc-creation-illustration
             class="main-page__card-illustration"
             :is-active="web3Store.provider.isConnected && web3Store.isValidChain"
-          />
+          />-->
         </div>
         <app-button
           class="main-page__card-button"
@@ -72,10 +69,10 @@
           {{ $t('main-page.doc-verification-card-title') }}
         </h2>
         <div class="main-page__card-illustration-wrp mb-4">
-          <doc-verification-illustration
+          <!--<doc-verification-illustration
             class="main-page__card-illustration"
             :is-active="web3Store.provider.isConnected && web3Store.isValidChain"
-          />
+          />-->
         </div>
         <app-button
           class="main-page__card-button"
