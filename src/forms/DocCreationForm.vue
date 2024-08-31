@@ -140,7 +140,7 @@ import {
 import { useWeb3ProvidersStore } from '@/store'
 import { ref, reactive, computed, onMounted, watch, nextTick } from 'vue'
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 
@@ -257,7 +257,12 @@ const submit = async () => {
     await uploadBytes(fileRef, file);
     const fileUrl = await getDownloadURL(fileRef);
     const walletAddress = web3Store.provider.selectedAddress as string;
-    
+    const userDocRef = doc(db, 'users', walletAddress);
+    const userDocSnapshot = await getDoc(userDocRef);
+    if (!userDocSnapshot.exists()) {
+      throw new Error("User not found in Firestore");
+    }
+    const { userType } = userDocSnapshot.data();
     const secretFileHash = (await poseidonHashContractInstance.getPoseidonHash(
       (await getKeccak256FileHash(form.files?.[0] as File)) as Keccak256Hash,
     )) as PoseidonHash
@@ -283,7 +288,8 @@ const submit = async () => {
       fileType: file.type,
       uploadDate: new Date().toISOString(),
       uploaderAddress: walletAddress,
-      indicatedAddresses: [...form.indicatedAddresses], 
+      indicatedAddresses: [...form.indicatedAddresses],
+      uploadType: userType, 
       isVerified: false,
       fileUrl: fileUrl,
     };
