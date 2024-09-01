@@ -30,7 +30,7 @@
             to="/uploads"
             class="text-white hover:text-blue-600 transition duration-300 mt-2"
           >
-            Uploads
+            User Uploads
           </router-link>
 
           <!-- Replace 'Register' button with the wallet address -->
