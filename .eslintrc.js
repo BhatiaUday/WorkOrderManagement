@@ -35,18 +35,7 @@ module.exports = {
   rules: {
     'prettier/prettier': [
       'warn',
-      {
-        vueIndentScriptAndStyle: false,
-        printWidth: 80,
-        trailingComma: 'all',
-        endOfLine: 'auto',
-        tabWidth: 2,
-        semi: false,
-        singleQuote: true,
-        bracketSpacing: true,
-        bracketSameLine: false,
-        arrowParens: 'avoid',
-      },
+      {},
     ],
     'vue-i18n/no-v-html': 'off',
     'vue-i18n/no-dynamic-keys': 'warn',

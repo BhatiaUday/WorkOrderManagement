@@ -315,7 +315,7 @@ const onPageChange = async ({
 const formatTimestamp = (timestamp: number): string => {
   return new Time(timestamp, 'X')
     .tz(TIMEZONES.IST)
-    .format('hh:mm A MMM YYYY [IST]')
+    .format('hh:mm DD MMM YYYY [IST]')
 }
 
 const updateInfoOfCurrentSigner = async () => {

@@ -53,7 +53,7 @@
         class="main-page__card bg-white p-4 rounded-lg shadow-md border border-gray-200"
       >
         <h2 class="main-page__card-title text-2xl font-semibold mb-4">
-          {{ $t("main-page.doc-creation-card-title") }}
+          {{ $t('main-page.doc-creation-card-title') }}
         </h2>
         <svg class="main-page__card-illustration-wrp">
           <use href="/branding/upload.svg#upload" />
@@ -72,7 +72,7 @@
         class="main-page__card bg-white p-4 rounded-lg shadow-md border border-gray-200"
       >
         <h2 class="main-page__card-title text-2xl font-semibold mb-4">
-          {{ $t("main-page.doc-verification-card-title") }}
+          {{ $t('main-page.doc-verification-card-title') }}
         </h2>
         <svg class="main-page__card-illustration-wrp">
           <use href="/branding/verify.svg#verify" />
@@ -93,54 +93,54 @@
 </template>
 
 <script lang="ts" setup>
-import { AppButton, ConnectEthereum } from "@/common";
-import { useContext } from "@/composables";
-import { DocCreationModal, DocVerificationModal } from "@/modals";
-import { useWeb3ProvidersStore } from "@/store";
-import { ref, computed, onMounted } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { getDoc, doc } from "firebase/firestore";
-import { db } from "../firebase";
+import { AppButton, ConnectEthereum } from '@/common'
+import { useContext } from '@/composables'
+import { DocCreationModal, DocVerificationModal } from '@/modals'
+import { useWeb3ProvidersStore } from '@/store'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { getDoc, doc } from 'firebase/firestore'
+import { db } from '../firebase'
 
-const web3Store = useWeb3ProvidersStore();
-const { $t } = useContext();
-const myVariable = web3Store.provider.selectedAddress;
-const isDocCreationModalShown = ref(false);
-const isDocVerificationModalShown = ref(false);
-const router = useRouter();
-const personName = ref<string>("");
-const route = useRoute();
+const web3Store = useWeb3ProvidersStore()
+const { $t } = useContext()
+const myVariable = web3Store.provider.selectedAddress
+const isDocCreationModalShown = ref(false)
+const isDocVerificationModalShown = ref(false)
+const router = useRouter()
+const personName = ref<string>('')
+const route = useRoute()
 
 onMounted(async () => {
-  const walletAddress = web3Store.provider.selectedAddress as string;
+  const walletAddress = web3Store.provider.selectedAddress as string
 
   try {
-    const userDoc = await getDoc(doc(db, "users", walletAddress));
+    const userDoc = await getDoc(doc(db, 'users', walletAddress))
     if (userDoc.exists()) {
-      const userData = userDoc.data();
-      personName.value = userData.personName || "User"; // Fallback if personName is not available
+      const userData = userDoc.data()
+      personName.value = userData.personName || 'User' // Fallback if personName is not available
     } else {
-      console.log("No such user!");
+      console.log('No such user!')
     }
   } catch (error) {
-    console.error("Error fetching user data:", error);
+    console.error('Error fetching user data:', error)
   }
-});
+})
 
 const redirectToPage = () => {
-  router.push("/register"); // Use the route path
-};
+  router.push('/register') // Use the route path
+}
 
 const ethereumMessage = computed(() => {
   switch (true) {
     case !web3Store.provider.isConnected:
-      return $t("main-page.connect-ethereum-message");
+      return $t('main-page.connect-ethereum-message')
     case !web3Store.isValidChain:
-      return $t("main-page.switch-ethereum-message");
+      return $t('main-page.switch-ethereum-message')
     default:
-      return $t("main-page.connected-ethereum-message");
+      return $t('main-page.connected-ethereum-message')
   }
-});
+})
 </script>
 
 <style lang="scss" scoped>
