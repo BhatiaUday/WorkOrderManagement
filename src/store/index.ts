@@ -10,7 +10,7 @@ export const useAuthStore = defineStore('auth', {
     currentUser: null,  // User data
   }),
   actions: {
-    setUser(user) {
+    setUser(user:any) {
       this.currentUser = user;
     },
   },
