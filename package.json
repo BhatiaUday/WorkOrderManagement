@@ -1,9 +1,6 @@
 {
   "name": "time-stamp-service-web-client",
   "version": "1.0.0-rc.1",
-  "gitHooks": {
-    "pre-commit": "yarn lint"
-  },
   "license": "Apache-2.0",
   "author": "Distributed Lab",
   "scripts": {
