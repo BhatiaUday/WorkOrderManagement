@@ -14,30 +14,6 @@ export interface AddEthereumChainParameter {
   iconUrls?: string[] // Currently ignored.
 }
 
-export const POLYGON_MAINNET_NETWORK_CONFIG = Object.freeze({
-  chainId: utils.hexValue(137),
-  chainName: 'Polygon Mainnet',
-  nativeCurrency: {
-    name: 'MATIC',
-    symbol: 'MATIC',
-    decimals: 18,
-  },
-  rpcUrls: ['https://polygon-rpc.com/'],
-  blockExplorerUrls: ['https://polygonscan.com/'],
-}) as Readonly<AddEthereumChainParameter>
-
-export const MUMBAI_TESTNET_NETWORK_CONFIG = Object.freeze({
-  chainId: utils.hexValue(80001),
-  chainName: 'Mumbai',
-  nativeCurrency: {
-    name: 'MATIC',
-    symbol: 'MATIC',
-    decimals: 18,
-  },
-  rpcUrls: ['https://matic-mumbai.chainstacklabs.com'],
-  blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
-}) as Readonly<AddEthereumChainParameter>
-
 export const Q_MAINNET_NETWORK_CONFIG = Object.freeze({
   chainId: utils.hexValue(35441),
   chainName: 'Q Mainnet',

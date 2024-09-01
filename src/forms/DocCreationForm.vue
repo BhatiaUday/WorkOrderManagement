@@ -154,6 +154,7 @@ const signerAddress = ref('');
 const { $t } = useContext()
 const web3Store = useWeb3ProvidersStore()
 
+
 const timestampContractInstance = useTimestampContract()
 const poseidonHashContractInstance = usePoseidonHashContract()
 
@@ -210,6 +211,7 @@ const addIndicatedAddress = (address: string) => {
     nextTick(() => (walletAddress.value = ''))
   }
 }
+addIndicatedAddress(web3Store.provider.selectedAddress as string)
 watch(
   () => walletAddress.value,
   newValue => addIndicatedAddress(newValue),

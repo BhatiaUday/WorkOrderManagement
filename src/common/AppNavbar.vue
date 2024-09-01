@@ -2,11 +2,16 @@
   <header class="bg-gray-800 shadow-md">
     <div class="container mx-auto px-6 py-4 flex justify-between items-center">
       <!-- Logo -->
-      <div class="flex items-center space-x-2">
-        <svg class="h-12 w-12 text-white fill-current">
+      <div class="flex justify-end space-x-1">
+        <router-link
+        to="/"
+        class="text-white text-lg font-semibold"
+        >
+        <svg class="h-14 w-14 text-white fill-current">
           <use href="/branding/logo.svg#logo" />
         </svg>
-        <span class="text-white text-lg font-semibold">Run Time Terror</span>
+    </router-link>
+        
       </div>
 
       <!-- Links / Buttons based on wallet connection -->

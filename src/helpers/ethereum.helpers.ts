@@ -1,7 +1,5 @@
 import { config } from '@/config'
 import {
-  MUMBAI_TESTNET_NETWORK_CONFIG,
-  POLYGON_MAINNET_NETWORK_CONFIG,
   Q_MAINNET_NETWORK_CONFIG,
   Q_TESTNET_NETWORK_CONFIG,
 } from '@/const'
@@ -105,10 +103,6 @@ export function getNetworkConfigByChainId(
   chainId: ChainId,
 ): Readonly<AddEthereumChainParameter> | undefined {
   switch (chainId.toString()) {
-    case ETHEREUM_CHAINS.polygon:
-      return POLYGON_MAINNET_NETWORK_CONFIG
-    case ETHEREUM_CHAINS.mumbai:
-      return MUMBAI_TESTNET_NETWORK_CONFIG
     case ETHEREUM_CHAINS.qMainnet:
       return Q_MAINNET_NETWORK_CONFIG
     case ETHEREUM_CHAINS.qTestnet:
@@ -120,10 +114,6 @@ export function getNetworkConfigByChainId(
 
 export function getTitleByChainId(chainId: ChainId): string {
   switch (chainId.toString()) {
-    case config.IS_MAINNET ? ETHEREUM_CHAINS.ethereum : ETHEREUM_CHAINS.goerli:
-      return t('switch-ethereum.ethereum-chain-title')
-    case config.IS_MAINNET ? ETHEREUM_CHAINS.polygon : ETHEREUM_CHAINS.mumbai:
-      return t('switch-ethereum.polygon-chain-title')
     case config.IS_MAINNET
       ? ETHEREUM_CHAINS.qMainnet
       : ETHEREUM_CHAINS.qTestnet:
@@ -135,10 +125,6 @@ export function getTitleByChainId(chainId: ChainId): string {
 
 export function getIconNameByChainId(chainId: ChainId): ICON_NAMES {
   switch (chainId.toString()) {
-    case config.IS_MAINNET ? ETHEREUM_CHAINS.ethereum : ETHEREUM_CHAINS.goerli:
-      return ICON_NAMES.ethereum
-    case config.IS_MAINNET ? ETHEREUM_CHAINS.polygon : ETHEREUM_CHAINS.mumbai:
-      return ICON_NAMES.polygon
     case config.IS_MAINNET
       ? ETHEREUM_CHAINS.qMainnet
       : ETHEREUM_CHAINS.qTestnet:
@@ -152,10 +138,6 @@ export function getTimestampContractAddressByChainId(
   chainId: ChainId,
 ): string | undefined {
   switch (chainId.toString()) {
-    case config.IS_MAINNET ? ETHEREUM_CHAINS.ethereum : ETHEREUM_CHAINS.goerli:
-      return config.CTR_ADDRESS_TIMESTAMP_ETHEREUM
-    case config.IS_MAINNET ? ETHEREUM_CHAINS.polygon : ETHEREUM_CHAINS.mumbai:
-      return config.CTR_ADDRESS_TIMESTAMP_POLYGON
     case config.IS_MAINNET
       ? ETHEREUM_CHAINS.qMainnet
       : ETHEREUM_CHAINS.qTestnet:
@@ -167,10 +149,6 @@ export function getPoseidonHashContractAddressByChainId(
   chainId: ChainId,
 ): string | undefined {
   switch (chainId.toString()) {
-    case config.IS_MAINNET ? ETHEREUM_CHAINS.ethereum : ETHEREUM_CHAINS.goerli:
-      return config.CTR_ADDRESS_POSEIDON_HASH_ETHEREUM
-    case config.IS_MAINNET ? ETHEREUM_CHAINS.polygon : ETHEREUM_CHAINS.mumbai:
-      return config.CTR_ADDRESS_POSEIDON_HASH_POLYGON
     case config.IS_MAINNET
       ? ETHEREUM_CHAINS.qMainnet
       : ETHEREUM_CHAINS.qTestnet:
@@ -182,10 +160,6 @@ export function getCurrencySymbolByChainId(
   chainId: ChainId,
 ): string | undefined {
   switch (chainId.toString()) {
-    case config.IS_MAINNET ? ETHEREUM_CHAINS.ethereum : ETHEREUM_CHAINS.goerli:
-      return ETHEREUM_CURRENCY_SYMBOLS.ethereum
-    case config.IS_MAINNET ? ETHEREUM_CHAINS.polygon : ETHEREUM_CHAINS.mumbai:
-      return ETHEREUM_CURRENCY_SYMBOLS.polygon
     case config.IS_MAINNET
       ? ETHEREUM_CHAINS.qMainnet
       : ETHEREUM_CHAINS.qTestnet:
