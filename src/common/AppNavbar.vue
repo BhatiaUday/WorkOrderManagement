@@ -22,7 +22,7 @@
       to="/new"
       class="text-white hover:text-blue-600 transition duration-300"
     >
-    Student Uploads
+    All Uploads
     </router-link>
 
         <div v-if="walletAddress" class="flex space-x-4">
@@ -30,7 +30,7 @@
             to="/uploads"
             class="text-white hover:text-blue-600 transition duration-300 mt-2"
           >
-            Uploads
+            User Uploads
           </router-link>
 
           <!-- Replace 'Register' button with the wallet address -->

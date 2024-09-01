@@ -1,6 +1,6 @@
 <template>
   <div v-if="isInstitute" class="p-4 space-y-4">
-    <h1 class="text-3xl font-bold mb-6">Student Files</h1>
+    <h1 class="text-3xl font-bold mb-6">All Files</h1>
 
     <!-- Filter Options -->
     <div class="mb-4">
