@@ -12,7 +12,6 @@
     "test": "yarn test:unit",
     "test:unit": "vitest run",
     "preview": "vite preview",
-    "rsc": "node scripts/release-sanity-check.mjs",
     "generate-ether-types": "typechain --target=ethers-v5 'src/abi/**/*.json' --out-dir src/types/contracts"
   },
   "dependencies": {
