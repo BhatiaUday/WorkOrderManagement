@@ -2,8 +2,17 @@
   <div class="main-page p-6 space-y-6">
     <div class="main-page__introduction text-center">
       <div class="main-page__welcome flex flex-col items-center mb-6">
-        <h1 class="text-4xl font-bold mb-4">Hi {{ personName }}!</h1>
-        <router-link
+  
+    <!-- Check if personName exists -->
+    <h1 v-if="personName !== ''" class="text-4xl font-bold mb-4">Hi {{ personName }}!</h1>
+    
+    <!-- If personName is null, show the Register button -->
+    <router-link v-else to="/register">
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Register
+      </button>
+    </router-link>
+    <router-link
           to="/uploads"
           class="text-xl font-semibold text-green-600 hover:text-blue-800"
         >

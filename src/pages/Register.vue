@@ -144,6 +144,7 @@ const handleSignUp = async (event: Event) => {
   if (userType.value === 'Institute') {
     userData.instituteName = instituteName.value;
   }
+  router.push('/'); // Redirect to / if userType is not Institute
 
   // Save user data and type in Firestore with walletAddress as docId
   try {
@@ -157,9 +158,8 @@ const handleSignUp = async (event: Event) => {
 
     // Redirect based on userType
     if (userType.value === 'Institute') {
-      router.push('/new'); // Redirect to /new if userType is Institute
+      router.push('/'); // Redirect to /new if userType is Institute
     } else {
-      router.push('/'); // Redirect to / if userType is not Institute
     }
   } catch (error) {
     console.error("Error during sign up:", error.message);
