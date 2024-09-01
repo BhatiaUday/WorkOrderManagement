@@ -4,7 +4,15 @@
       <div class="main-page__welcome flex flex-col items-center mb-6">
   
     <!-- Check if personName exists -->
-    <h1 v-if="personName !== ''" class="text-4xl font-bold mb-4">Hi {{ personName }}!</h1>
+    <h1 v-if="personName !== ''" class="text-4xl font-bold mb-4">Hi {{ personName }}! 
+      <br/>
+    <router-link
+          to="/uploads"
+          class="text-xl font-semibold text-green-600 hover:text-blue-800"
+        >
+          Your Uploads
+        </router-link>
+    </h1>
     
     <!-- If personName is null, show the Register button -->
     <router-link v-else to="/register">
@@ -12,12 +20,6 @@
         Register
       </button>
     </router-link>
-    <router-link
-          to="/uploads"
-          class="text-xl font-semibold text-green-600 hover:text-blue-800"
-        >
-          Your Uploads
-        </router-link>
       </div>
       <h4 class="main-page__description text-lg text-gray-700">
         Streamline work order management with our decentralized app for
