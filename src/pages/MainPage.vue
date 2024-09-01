@@ -2,26 +2,28 @@
   <div class="main-page p-6 space-y-6">
     <div class="main-page__introduction text-center">
       <div class="main-page__welcome flex flex-col items-center mb-6">
-        <h1 class="text-4xl font-bold mb-4">
-          Hi {{ personName }}!
-        </h1>
+        <h1 class="text-4xl font-bold mb-4">Hi {{ personName }}!</h1>
         <router-link
-  to="/uploads"
-  class="text-xl font-semibold text-green-600 hover:text-blue-800"
->
-  Your Uploads
-</router-link>
-
+          to="/uploads"
+          class="text-xl font-semibold text-green-600 hover:text-blue-800"
+        >
+          Your Uploads
+        </router-link>
       </div>
       <h4 class="main-page__description text-lg text-gray-700">
-        Streamline work order management with our decentralized app for government colleges. Utilizing the Sign Protocol for secure, on-chain verification our dApp ensures transparent, tamper-proof processes and scalable solutions, transforming how work orders and approvals are managed.
+        Streamline work order management with our decentralized app for
+        government colleges. Utilizing the Sign Protocol for secure, on-chain
+        verification our dApp ensures transparent, tamper-proof processes and
+        scalable solutions, transforming how work orders and approvals are
+        managed.
       </h4>
     </div>
 
     <div
       class="main-page__container p-4 bg-gray-100 rounded-lg shadow-md"
       :class="{
-        'main-page__container--lifted': web3Store.provider.isConnected && web3Store.isValidChain,
+        'main-page__container--lifted':
+          web3Store.provider.isConnected && web3Store.isValidChain,
       }"
     >
       <transition name="fade">
@@ -29,10 +31,13 @@
           v-show="!web3Store.provider.isConnected || !web3Store.isValidChain"
           class="main-page__connect-ethereum p-4 border border-gray-300 rounded-lg bg-white"
           :class="{
-            'main-page__connect-ethereum--connected': web3Store.provider.isConnected,
+            'main-page__connect-ethereum--connected':
+              web3Store.provider.isConnected,
           }"
         >
-          <h4 class="main-page__connect-ethereum-message text-sm text-gray-600 mb-4">
+          <h4
+            class="main-page__connect-ethereum-message text-sm text-gray-600 mb-4"
+          >
             {{ ethereumMessage }}
           </h4>
           <button
@@ -44,16 +49,15 @@
         </div>
       </transition>
 
-      <div class="main-page__card bg-white p-4 rounded-lg shadow-md border border-gray-200 mb-6">
-        <h2 class="main-page__card-title text-2xl font-semibold mb-4 mt-3">
-          <p>Upload Document</p>
+      <div
+        class="main-page__card bg-white p-4 rounded-lg shadow-md border border-gray-200"
+      >
+        <h2 class="main-page__card-title text-2xl font-semibold mb-4">
+          {{ $t("main-page.doc-creation-card-title") }}
         </h2>
-        <div class="main-page__card-illustration-wrp mb-4">
-          <!--<doc-creation-illustration
-            class="main-page__card-illustration"
-            :is-active="web3Store.provider.isConnected && web3Store.isValidChain"
-          />-->
-        </div>
+        <svg class="main-page__card-illustration-wrp">
+          <use href="/branding/upload.svg#upload" />
+        </svg>
         <app-button
           class="main-page__card-button"
           preset="primary"
@@ -64,16 +68,15 @@
         <doc-creation-modal v-model:is-shown="isDocCreationModalShown" />
       </div>
 
-      <div class="main-page__card bg-white p-4 rounded-lg shadow-md border border-gray-200">
+      <div
+        class="main-page__card bg-white p-4 rounded-lg shadow-md border border-gray-200"
+      >
         <h2 class="main-page__card-title text-2xl font-semibold mb-4">
-          {{ $t('main-page.doc-verification-card-title') }}
+          {{ $t("main-page.doc-verification-card-title") }}
         </h2>
-        <div class="main-page__card-illustration-wrp mb-4">
-          <!--<doc-verification-illustration
-            class="main-page__card-illustration"
-            :is-active="web3Store.provider.isConnected && web3Store.isValidChain"
-          />-->
-        </div>
+        <svg class="main-page__card-illustration-wrp">
+          <use href="/branding/verify.svg#verify" />
+        </svg>
         <app-button
           class="main-page__card-button"
           preset="primary"
@@ -85,35 +88,28 @@
           v-model:is-shown="isDocVerificationModalShown"
         />
       </div>
-
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { AppButton, ConnectEthereum } from '@/common'
-import { useContext } from '@/composables'
-import {
-  DocCreationIllustration,
-  DocVerificationIllustration,
-} from '@/illustrations'
-import { DocCreationModal, DocVerificationModal } from '@/modals'
-import { useWeb3ProvidersStore } from '@/store'
-import { ref, computed, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { getDoc, doc } from 'firebase/firestore';
-import { db } from '../firebase'; 
+import { AppButton, ConnectEthereum } from "@/common";
+import { useContext } from "@/composables";
+import { DocCreationModal, DocVerificationModal } from "@/modals";
+import { useWeb3ProvidersStore } from "@/store";
+import { ref, computed, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../firebase";
 
-
-const web3Store = useWeb3ProvidersStore()
-const { $t } = useContext()
-const myVariable = web3Store.provider.selectedAddress
-const isDocCreationModalShown = ref(false)
-const isDocVerificationModalShown = ref(false)
-const router = useRouter()
-const personName = ref<string>('');
+const web3Store = useWeb3ProvidersStore();
+const { $t } = useContext();
+const myVariable = web3Store.provider.selectedAddress;
+const isDocCreationModalShown = ref(false);
+const isDocVerificationModalShown = ref(false);
+const router = useRouter();
+const personName = ref<string>("");
 const route = useRoute();
-
 
 onMounted(async () => {
   const walletAddress = web3Store.provider.selectedAddress as string;
@@ -122,7 +118,7 @@ onMounted(async () => {
     const userDoc = await getDoc(doc(db, "users", walletAddress));
     if (userDoc.exists()) {
       const userData = userDoc.data();
-      personName.value = userData.personName || 'User'; // Fallback if personName is not available
+      personName.value = userData.personName || "User"; // Fallback if personName is not available
     } else {
       console.log("No such user!");
     }
@@ -132,20 +128,19 @@ onMounted(async () => {
 });
 
 const redirectToPage = () => {
-
-  router.push('/register') // Use the route path
-}
+  router.push("/register"); // Use the route path
+};
 
 const ethereumMessage = computed(() => {
   switch (true) {
     case !web3Store.provider.isConnected:
-      return $t('main-page.connect-ethereum-message')
+      return $t("main-page.connect-ethereum-message");
     case !web3Store.isValidChain:
-      return $t('main-page.switch-ethereum-message')
+      return $t("main-page.switch-ethereum-message");
     default:
-      return $t('main-page.connected-ethereum-message')
+      return $t("main-page.connected-ethereum-message");
   }
-})
+});
 </script>
 
 <style lang="scss" scoped>

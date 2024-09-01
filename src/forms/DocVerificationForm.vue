@@ -314,8 +314,8 @@ const onPageChange = async ({
 
 const formatTimestamp = (timestamp: number): string => {
   return new Time(timestamp, 'X')
-    .tz(TIMEZONES.CET)
-    .format('hh:mm A MMM YYYY [CET]')
+    .tz(TIMEZONES.IST)
+    .format('hh:mm A MMM YYYY [IST]')
 }
 
 const updateInfoOfCurrentSigner = async () => {
