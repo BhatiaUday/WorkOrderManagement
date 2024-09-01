@@ -22,7 +22,7 @@
       to="/new"
       class="text-white hover:text-blue-600 transition duration-300"
     >
-    Student Uploads
+    All Uploads
     </router-link>
 
         <div v-if="walletAddress" class="flex space-x-4">
